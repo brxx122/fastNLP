@@ -439,8 +439,8 @@ class SpanFPreRecMetric(MetricBase):
         if pred.size() == target.size() and len(target.size()) == 2:
             pass
         elif len(pred.size()) == len(target.size()) + 1 and len(target.size()) == 2:
-            pred = pred.argmax(dim=-1)
-            num_classes = pred.size(-1)
+            num_classes = pred.size(-1) # pred: [batch_size, seq_lens, number_classes]
+            pred = pred.argmax(dim=-1)  # pred: [batch_size, seq_lens]
             if (target >= num_classes).any():
                 raise ValueError("A gold label passed to SpanBasedF1Metric contains an "
                                  "id >= {}, the number of classes.".format(num_classes))
